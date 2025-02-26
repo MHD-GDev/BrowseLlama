@@ -13,7 +13,7 @@ RED = '\033[91m'
 ENDC = '\033[0m'  # End color
 
 # Get models from the specified directory
-models_dir = os.path.expanduser("~/.local/share/AI-Models")
+models_dir = os.path.expanduser("Path/to/AI/Models/Directory")
 model_files = [f for f in os.listdir(models_dir) if f.endswith('.gguf')]
 
 # Display available models
