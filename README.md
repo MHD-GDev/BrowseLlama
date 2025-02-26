@@ -10,11 +10,11 @@ git clone https://github.com/MHD-GDev/BrowseLlama.git
 ```
 Note : For CUDA installation of llama_cpp_python use this command :
 ```
-CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python beautifulsoup4 requests
+CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python beautifulsoup4 requests duckduckgo-search
 ```
 Otherwise:
 ```
-pip install beautifulsoup4 llama_cpp_python requests
+pip install beautifulsoup4 llama_cpp_python requests duckduckgo-search
 ```
 ### Usage
 1. Change the directory in online.py to your AI Models directory.
@@ -24,7 +24,11 @@ pip install beautifulsoup4 llama_cpp_python requests
 5. Enjoy the answer :)
 
 ### Note:
-You can get more than ```1``` answer by modifiying :
+- You can get more than ```1``` answer by modifiying this code in online.py:
 ``` python
 return results[:1]
+```
+- You can search more than 4 pages by modifiying this code in deep.py:
+```python
+max_results = self.max_pages * 10 # Change this
 ```

@@ -12,7 +12,7 @@ RED = '\033[91m'
 ENDC = '\033[0m'
 
 # Get models from the specified directory
-models_dir = os.path.expanduser("Path/to/AI/Models/Directory")
+models_dir = os.path.expanduser("~/.local/share/AI-Models")
 model_files = [f for f in os.listdir(models_dir) if f.endswith('.gguf')]
 
 # Display available models
@@ -65,39 +65,43 @@ def search_web(query):
         print(f"Error searching web: {e}")
         return []
 
+llm = Llama(model_path=selected_model, verbose=False)
+
 def main():
-    # Search the web
-    question = input(f"{GREEN}Enter your question: {ENDC} ")
-    print(f"{YELLOW}Searching for: {question}{ENDC}")
-    search_results = search_web(question)
-    
-    if not search_results:
-        print(f"{RED}No search results found.{ENDC}")
-        return
+    while True:
+        question = input(f"\n{GREEN}Enter your question (or 'quit' to exit): {ENDC}")
+        
+        if question.lower() == 'quit':
+            break
+            
+        print(f"{YELLOW}Searching for: {question}{ENDC}")
+        search_results = search_web(question)
+        
+        if not search_results:
+            print(f"{RED}No search results found.{ENDC}")
+            continue
 
-    # Prepare context for LLM
-    context = "Based on the following search results, please answer the question:\n\n"
-    for idx, result in enumerate(search_results, 1):
-        context += f"Result {idx}:\nTitle: {result['title']}\nSnippet: {result['snippet']}\nSource: {result['url']}\n\n"
-    
-    context += f"Question: {question}\nAnswer:"
+        # Prepare context for LLM
+        context = "Based on the following search results, please answer the question:\n\n"
+        for idx, result in enumerate(search_results, 1):
+            context += f"Result {idx}:\nTitle: {result['title']}\nSnippet: {result['snippet']}\nSource: {result['url']}\n\n"
+        
+        context += f"Question: {question}\nAnswer:"
 
-    # Initialize LLM with the model
-    llm = Llama(model_path=selected_model, verbose=False)
-    
-    # Generate response using local LLM
-    response = llm.create_completion(
-        prompt=context,
-        max_tokens=512,
-        temperature=0.7,
-        stop=["Question:", "\n\n"]
-    )
+        # Generate response using local LLM
+        response = llm.create_completion(
+            prompt=context,
+            max_tokens=512,
+            temperature=0.7,
+            stop=["Question:", "\n\n"]
+        )
 
-    print(f"\n{YELLOW}Answer:{ENDC}")
-    print(f"{GREEN}{response['choices'][0]['text'].strip()}{ENDC}")
-    print(f"\n{YELLOW}Source:{ENDC}")
-    for result in search_results:
-        print(f"{BLUE}{result['url']}{ENDC}")
+        print(f"\n{YELLOW}Answer:{ENDC}")
+        print(f"{GREEN}{response['choices'][0]['text'].strip()}{ENDC}")
+        print(f"\n{YELLOW}Source:{ENDC}")
+        for result in search_results:
+            print(f"{BLUE}{result['url']}{ENDC}")
+
 
 if __name__ == "__main__":
     main()
