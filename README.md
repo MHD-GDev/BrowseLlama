@@ -17,8 +17,8 @@ Otherwise:
 pip install beautifulsoup4 llama_cpp_python requests duckduckgo-search
 ```
 ### Usage
-1. Change the directory in online.py to your AI Models directory.
-2. ```python online.py```
+1. Change the directory in online.py and deep.py to your AI Models directory.
+2. ```python online.py``` or ```python deep.py```
 3. select your model.
 4. Ask your question
 5. Enjoy the answer :)
