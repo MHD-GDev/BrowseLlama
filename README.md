@@ -5,6 +5,9 @@
 - Python 3.x
 - [Llama.cpp](https://github.com/ggml-org/llama.cpp)
 ### Installation
+```
+git clone https://github.com/MHD-GDev/BrowseLlama.git
+```
 Note : For CUDA installation of llama_cpp_python use this command :
 ```
 CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python beautifulsoup4 requests
