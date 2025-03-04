@@ -1,11 +1,8 @@
-import requests
+import requests, os, readline, urllib.parse, argparse, textwrap
 from bs4 import BeautifulSoup
 from llama_cpp import Llama
-import argparse
-import urllib.parse
-import os
-import textwrap
 from duckduckgo_search import DDGS
+from datetime import datetime
 
 BLUE = '\033[94m'
 GREEN = '\033[92m'
@@ -15,7 +12,7 @@ ENDC = '\033[0m'
 
 class EnhancedSearch:
     def __init__(self, model_path, max_pages=3):
-        self.llm = Llama(model_path=model_path, verbose=False)
+        self.llm = Llama(n_ctx=8196,model_path=model_path, verbose=False)
         self.max_pages = max_pages
     
     def deep_search(self, query):
@@ -73,7 +70,7 @@ class EnhancedSearch:
         response = self.llm.create_completion(
             prompt=prompt,
             max_tokens=256,
-            temperature=0.7,
+            temperature=0.2,
             stop=["Q:", "\n\n"]
         )
         
